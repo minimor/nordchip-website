@@ -15,6 +15,7 @@
   const BREAKPOINT = 860;
   const CONTACT_PHONE = "385955562984";
   const CONTACT_EMAIL = "nordchipzagreb@gmail.com";
+  const GOOGLE_MAPS_URL = "https://maps.app.goo.gl/Ez5CPAhG4wvDDyeS8";
 
   const strings = {
     hr: {
@@ -63,6 +64,12 @@
   })();
 
   const i18n = strings[lang];
+
+  const trackEvent = (name, params = {}) => {
+    if (typeof window.gtag === "function") {
+      window.gtag("event", name, params);
+    }
+  };
 
   const header = document.querySelector(SELECTORS.header);
   const menuToggle = document.querySelector(SELECTORS.menuToggle);
@@ -189,6 +196,29 @@
     });
   };
 
+  const initContactTracking = () => {
+    document.addEventListener("click", (event) => {
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+
+      const link = target.closest("a[href]");
+      if (!(link instanceof HTMLAnchorElement)) return;
+
+      const href = link.href;
+      if (href.includes("wa.me/385955562984")) {
+        trackEvent("click_whatsapp", { link_url: href });
+      } else if (href.includes("t.me/ServisPcZagreb")) {
+        trackEvent("click_telegram", { link_url: href });
+      } else if (href.startsWith("tel:")) {
+        trackEvent("click_phone", { link_url: href });
+      } else if (href.startsWith("mailto:")) {
+        trackEvent("click_email", { link_url: href });
+      } else if (href === GOOGLE_MAPS_URL) {
+        trackEvent("click_google_maps", { link_url: href });
+      }
+    });
+  };
+
   const initLeadForm = () => {
     const form = document.querySelector(SELECTORS.leadForm);
     if (!(form instanceof HTMLFormElement)) return;
@@ -227,6 +257,7 @@
     const openWhatsApp = () => {
       const text = encodeURIComponent(buildMessage());
       const url = `https://wa.me/${CONTACT_PHONE}?text=${text}`;
+      trackEvent("submit_contact_whatsapp", { form_id: "lead-form" });
       window.open(url, "_blank", "noopener,noreferrer");
       setStatus(`${i18n.readyWhatsApp} ${i18n.fallback}`);
     };
@@ -235,6 +266,7 @@
       const subject = encodeURIComponent(i18n.subject);
       const body = encodeURIComponent(buildMessage());
       const url = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
+      trackEvent("submit_contact_email", { form_id: "lead-form" });
       window.location.href = url;
       setStatus(`${i18n.readyEmail} ${i18n.fallback}`);
     };
@@ -266,6 +298,7 @@
   initStickyHeader();
   initReveal();
   initFaq();
+  initContactTracking();
   initLeadForm();
 })();
 

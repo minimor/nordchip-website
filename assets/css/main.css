@@ -346,6 +346,23 @@ h3 {
   background: #f6faff;
 }
 
+.trust-strip {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.trust-strip span {
+  border-radius: 999px;
+  border: 1px solid rgba(14, 165, 183, 0.35);
+  background: #ecfdff;
+  color: #0b4f68;
+  padding: 0.38rem 0.66rem;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
 .panel-list {
   display: grid;
   gap: 0.7rem;
@@ -689,6 +706,7 @@ h3 {
 }
 
 .service-pills,
+.problem-grid,
 .pain-grid,
 .direction-grid,
 .proof-grid {
@@ -701,6 +719,7 @@ h3 {
 }
 
 .service-pill,
+.problem-card,
 .pain-card,
 .direction-card,
 .proof-card,
@@ -730,6 +749,26 @@ h3 {
 
 .pain-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.problem-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.problem-card {
+  padding: 0.95rem;
+  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+}
+
+.problem-card:hover {
+  border-color: rgba(14, 165, 183, 0.45);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
+}
+
+.problem-card p {
+  margin: 0.35rem 0 0;
+  color: var(--muted);
 }
 
 .pain-card {
@@ -788,6 +827,47 @@ h3 {
 .proof-card p {
   margin: 0.35rem 0 0;
   color: var(--muted);
+}
+
+.brief-list {
+  margin: 0.85rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.42rem;
+  color: #32455f;
+}
+
+.brief-list li {
+  display: flex;
+  gap: 0.45rem;
+}
+
+.brief-list li::before {
+  content: "•";
+  color: var(--accent);
+  font-weight: 800;
+}
+
+.service-group {
+  margin-top: 1.2rem;
+}
+
+.service-group + .service-group {
+  margin-top: 1.6rem;
+}
+
+.group-label {
+  display: inline-flex;
+  margin: 0 0 0.65rem;
+  border-radius: 999px;
+  border: 1px solid rgba(13, 77, 120, 0.18);
+  background: #f6faff;
+  color: var(--primary);
+  padding: 0.34rem 0.68rem;
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-transform: uppercase;
 }
 
 .final-cta {
@@ -1038,6 +1118,7 @@ h3 {
   }
 
   .service-pills,
+  .problem-grid,
   .pain-grid,
   .proof-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1097,6 +1178,7 @@ h3 {
   .metrics-grid,
   .process-grid,
   .service-pills,
+  .problem-grid,
   .pain-grid,
   .direction-grid,
   .proof-grid {
